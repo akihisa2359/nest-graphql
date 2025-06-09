@@ -6,22 +6,24 @@ import { AppService } from './app.service';
 import { User } from './user.entity';
 import { UserResolver } from './user.resolver';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { Post } from './post.entity';
+import { PostResolver } from './post.resolver';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'test.sqlite',
-      entities: [User],
+      entities: [User, Post],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Post]),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: true,
     }),
   ],
   controllers: [AppController],
-  providers: [AppService, UserResolver],
+  providers: [AppService, UserResolver, PostResolver],
 })
 export class AppModule {}
