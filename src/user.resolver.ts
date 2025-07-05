@@ -3,12 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { Post } from './post.entity';
+import { PostsLoader } from './posts.loader';
 
 @Resolver(() => User)
 export class UserResolver {
   constructor(
     @InjectRepository(User) private userRepo: Repository<User>,
-    @InjectRepository(Post) private postRepo: Repository<Post>,
+    private postsLoader: PostsLoader,
   ) {}
 
   @Query(() => [User])
@@ -18,6 +19,7 @@ export class UserResolver {
 
   @ResolveField(() => [Post])
   async posts(@Parent() user: User): Promise<Post[]> {
-    return this.postRepo.find({ where: { userId: user.id } });
+    console.log('ResolveField for posts called');
+    return this.postsLoader.batchPosts.load(user.id);
   }
 }

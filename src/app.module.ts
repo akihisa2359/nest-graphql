@@ -8,6 +8,7 @@ import { UserResolver } from './user.resolver';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Post } from './post.entity';
 import { PostResolver } from './post.resolver';
+import { PostsLoader } from './posts.loader';
 
 @Module({
   imports: [
@@ -24,6 +25,6 @@ import { PostResolver } from './post.resolver';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService, UserResolver, PostResolver],
+  providers: [AppService, UserResolver, PostResolver, PostsLoader],
 })
 export class AppModule {}
